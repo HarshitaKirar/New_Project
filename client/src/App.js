@@ -4,27 +4,13 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Toaster } from 'react-hot-toast';
 import { AnimatePresence } from 'framer-motion';
 
-// Store
-import { useAuthStore } from './store/authStore';
-
-// Components
-import Layout from './components/Layout/Layout';
-import PrivateRoute from './components/Auth/PrivateRoute';
-import LoadingSpinner from './components/UI/LoadingSpinner';
-
 // Pages
-import LandingPage from './pages/LandingPage';
-import LoginPage from './pages/Auth/LoginPage';
-import RegisterPage from './pages/Auth/RegisterPage';
-import OnboardingPage from './pages/Auth/OnboardingPage';
-import DashboardPage from './pages/Dashboard/DashboardPage';
-import CarbonTrackingPage from './pages/CarbonTracking/CarbonTrackingPage';
-import TasksPage from './pages/Tasks/TasksPage';
-import RewardsPage from './pages/Rewards/RewardsPage';
-import CommunityPage from './pages/Community/CommunityPage';
-import ProfilePage from './pages/Profile/ProfilePage';
-import AnalyticsPage from './pages/Analytics/AnalyticsPage';
-import LeaderboardPage from './pages/Leaderboard/LeaderboardPage';
+import HomePage from './pages/HomePage';
+import OnboardingPage from './pages/OnboardingPage';
+import CarbonTrackingPage from './pages/CarbonTrackingPage';
+import GamificationPage from './pages/GamificationPage';
+import RewardsPage from './pages/RewardsPage';
+import CommunityPage from './pages/CommunityPage';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -38,16 +24,6 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-  const { isAuthenticated, isLoading, user } = useAuthStore();
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-eco-light to-primary-50">
-        <LoadingSpinner size="lg" />
-      </div>
-    );
-  }
-
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
@@ -55,46 +31,12 @@ function App() {
           <AnimatePresence mode="wait">
             <Routes>
               {/* Public Routes */}
-              <Route 
-                path="/" 
-                element={
-                  isAuthenticated ? <Navigate to="/dashboard" replace /> : <LandingPage />
-                } 
-              />
-              <Route 
-                path="/login" 
-                element={
-                  isAuthenticated ? <Navigate to="/dashboard" replace /> : <LoginPage />
-                } 
-              />
-              <Route 
-                path="/register" 
-                element={
-                  isAuthenticated ? <Navigate to="/dashboard" replace /> : <RegisterPage />
-                } 
-              />
-              
-              {/* Protected Routes */}
-              <Route path="/onboarding" element={
-                <PrivateRoute>
-                  <OnboardingPage />
-                </PrivateRoute>
-              } />
-              
-              <Route path="/" element={
-                <PrivateRoute>
-                  <Layout />
-                </PrivateRoute>
-              }>
-                <Route path="dashboard" element={<DashboardPage />} />
-                <Route path="carbon-tracking" element={<CarbonTrackingPage />} />
-                <Route path="tasks" element={<TasksPage />} />
-                <Route path="rewards" element={<RewardsPage />} />
-                <Route path="community" element={<CommunityPage />} />
-                <Route path="analytics" element={<AnalyticsPage />} />
-                <Route path="leaderboard" element={<LeaderboardPage />} />
-                <Route path="profile" element={<ProfilePage />} />
-              </Route>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/onboarding" element={<OnboardingPage />} />
+              <Route path="/carbon-tracking" element={<CarbonTrackingPage />} />
+              <Route path="/gamification" element={<GamificationPage />} />
+              <Route path="/rewards" element={<RewardsPage />} />
+              <Route path="/community" element={<CommunityPage />} />
               
               {/* Catch all route */}
               <Route path="*" element={<Navigate to="/" replace />} />
