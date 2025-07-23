@@ -12,220 +12,312 @@ const useAuthStore = create(
       // State
       user: null,
       token: null,
-      refreshToken: null,
       isAuthenticated: false,
-      isLoading: true,
-
+      isLoading: false,
+      
       // Actions
       setLoading: (loading) => set({ isLoading: loading }),
-
+      
+      // Initialize authentication on app start
+      initializeAuth: async () => {
+        const token = localStorage.getItem('smartapply_token');
+        if (token) {
+          try {
+            set({ isLoading: true });
+            
+            // Set token in axios headers
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            
+            // Verify token and get user data
+            const response = await axios.get('/auth/me');
+            
+            set({
+              user: response.data.user,
+              token,
+              isAuthenticated: true,
+              isLoading: false
+            });
+          } catch (error) {
+            console.error('Token verification failed:', error);
+            // Clear invalid token
+            localStorage.removeItem('smartapply_token');
+            delete axios.defaults.headers.common['Authorization'];
+            set({
+              user: null,
+              token: null,
+              isAuthenticated: false,
+              isLoading: false
+            });
+          }
+        } else {
+          set({ isLoading: false });
+        }
+      },
+      
+      // Login
       login: async (email, password) => {
         try {
           set({ isLoading: true });
           
           const response = await axios.post('/auth/login', {
             email,
-            password,
+            password
           });
-
-          const { user, token, refreshToken } = response.data.data;
-
-          // Set axios default header
+          
+          const { user, token } = response.data;
+          
+          // Store token
+          localStorage.setItem('smartapply_token', token);
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
+          
           set({
             user,
             token,
-            refreshToken,
             isAuthenticated: true,
-            isLoading: false,
+            isLoading: false
           });
-
-          toast.success(`Welcome back, ${user.name}! 🌱`);
+          
+          toast.success(`Welcome back, ${user.firstName}!`);
           return { success: true };
         } catch (error) {
           set({ isLoading: false });
-          const message = error.response?.data?.message || 'Login failed';
+          const message = error.response?.data?.error || 'Login failed';
           toast.error(message);
-          return { success: false, message };
+          return { success: false, error: message };
         }
       },
-
+      
+      // Register
       register: async (userData) => {
         try {
           set({ isLoading: true });
           
           const response = await axios.post('/auth/register', userData);
-
-          const { user, token, refreshToken } = response.data.data;
-
-          // Set axios default header
+          
+          const { user, token } = response.data;
+          
+          // Store token
+          localStorage.setItem('smartapply_token', token);
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
+          
           set({
             user,
             token,
-            refreshToken,
             isAuthenticated: true,
-            isLoading: false,
+            isLoading: false
           });
-
-          toast.success(`Welcome to EcoTracker, ${user.name}! 🎉`);
+          
+          toast.success(`Welcome to SmartApply, ${user.firstName}!`);
           return { success: true };
         } catch (error) {
           set({ isLoading: false });
-          const message = error.response?.data?.message || 'Registration failed';
+          const message = error.response?.data?.error || 'Registration failed';
           toast.error(message);
-          return { success: false, message };
+          return { success: false, error: message };
         }
       },
-
-      logout: () => {
-        // Clear axios header
-        delete axios.defaults.headers.common['Authorization'];
-        
-        set({
-          user: null,
-          token: null,
-          refreshToken: null,
-          isAuthenticated: false,
-          isLoading: false,
-        });
-
-        toast.success('Logged out successfully');
-      },
-
-      refreshAccessToken: async () => {
+      
+      // Logout
+      logout: async () => {
         try {
-          const { refreshToken } = get();
+          // Call logout endpoint if needed
+          await axios.post('/auth/logout');
+        } catch (error) {
+          console.error('Logout API call failed:', error);
+        } finally {
+          // Clear local storage and state
+          localStorage.removeItem('smartapply_token');
+          delete axios.defaults.headers.common['Authorization'];
           
-          if (!refreshToken) {
-            throw new Error('No refresh token available');
-          }
-
-          const response = await axios.post('/auth/refresh-token', {
-            refreshToken,
+          set({
+            user: null,
+            token: null,
+            isAuthenticated: false,
+            isLoading: false
           });
-
-          const { token } = response.data.data;
-
-          // Update axios header
-          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-          set({ token });
-          return token;
-        } catch (error) {
-          // If refresh fails, logout the user
-          get().logout();
-          throw error;
-        }
-      },
-
-      updateUser: (userData) => {
-        set((state) => ({
-          user: { ...state.user, ...userData }
-        }));
-      },
-
-      fetchProfile: async () => {
-        try {
-          const response = await axios.get('/auth/me');
-          const { user } = response.data.data;
           
-          set({ user });
-          return user;
-        } catch (error) {
-          console.error('Failed to fetch profile:', error);
-          return null;
+          toast.success('Logged out successfully');
         }
       },
-
+      
+      // Update user profile
       updateProfile: async (profileData) => {
         try {
-          const response = await axios.put('/auth/profile', profileData);
-          const { user } = response.data.data;
+          set({ isLoading: true });
           
-          set({ user });
-          toast.success('Profile updated successfully! ✨');
-          return { success: true, user };
-        } catch (error) {
-          const message = error.response?.data?.message || 'Failed to update profile';
-          toast.error(message);
-          return { success: false, message };
-        }
-      },
-
-      changePassword: async (currentPassword, newPassword) => {
-        try {
-          await axios.post('/auth/change-password', {
-            currentPassword,
-            newPassword,
+          const response = await axios.put('/users/profile', profileData);
+          
+          set({
+            user: response.data.user,
+            isLoading: false
           });
-
-          toast.success('Password changed successfully! 🔒');
+          
+          toast.success('Profile updated successfully');
           return { success: true };
         } catch (error) {
-          const message = error.response?.data?.message || 'Failed to change password';
-          toast.error(message);
-          return { success: false, message };
-        }
-      },
-
-      // Initialize authentication state
-      initializeAuth: async () => {
-        const { token } = get();
-        
-        if (token) {
-          // Set axios header
-          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-          
-          try {
-            // Verify token by fetching profile
-            await get().fetchProfile();
-            set({ isAuthenticated: true, isLoading: false });
-          } catch (error) {
-            // Token is invalid, clear auth state
-            get().logout();
-          }
-        } else {
           set({ isLoading: false });
+          const message = error.response?.data?.error || 'Profile update failed';
+          toast.error(message);
+          return { success: false, error: message };
         }
       },
+      
+      // Update user preferences
+      updatePreferences: async (preferences) => {
+        try {
+          const response = await axios.put('/users/preferences', preferences);
+          
+          set({
+            user: {
+              ...get().user,
+              jobPreferences: response.data.preferences
+            }
+          });
+          
+          toast.success('Preferences updated successfully');
+          return { success: true };
+        } catch (error) {
+          const message = error.response?.data?.error || 'Failed to update preferences';
+          toast.error(message);
+          return { success: false, error: message };
+        }
+      },
+      
+      // Change password
+      changePassword: async (currentPassword, newPassword) => {
+        try {
+          set({ isLoading: true });
+          
+          await axios.put('/auth/change-password', {
+            currentPassword,
+            newPassword
+          });
+          
+          set({ isLoading: false });
+          toast.success('Password changed successfully');
+          return { success: true };
+        } catch (error) {
+          set({ isLoading: false });
+          const message = error.response?.data?.error || 'Password change failed';
+          toast.error(message);
+          return { success: false, error: message };
+        }
+      },
+      
+      // Forgot password
+      forgotPassword: async (email) => {
+        try {
+          set({ isLoading: true });
+          
+          await axios.post('/auth/forgot-password', { email });
+          
+          set({ isLoading: false });
+          toast.success('Password reset email sent');
+          return { success: true };
+        } catch (error) {
+          set({ isLoading: false });
+          const message = error.response?.data?.error || 'Failed to send reset email';
+          toast.error(message);
+          return { success: false, error: message };
+        }
+      },
+      
+      // Reset password
+      resetPassword: async (token, newPassword) => {
+        try {
+          set({ isLoading: true });
+          
+          await axios.post('/auth/reset-password', {
+            token,
+            newPassword
+          });
+          
+          set({ isLoading: false });
+          toast.success('Password reset successfully');
+          return { success: true };
+        } catch (error) {
+          set({ isLoading: false });
+          const message = error.response?.data?.error || 'Password reset failed';
+          toast.error(message);
+          return { success: false, error: message };
+        }
+      },
+      
+      // Refresh user data
+      refreshUser: async () => {
+        try {
+          const response = await axios.get('/auth/me');
+          set({ user: response.data.user });
+          return { success: true };
+        } catch (error) {
+          console.error('Failed to refresh user data:', error);
+          return { success: false };
+        }
+      },
+      
+      // Check if user has specific subscription plan
+      hasSubscription: (requiredPlan = 'premium') => {
+        const user = get().user;
+        if (!user?.subscription?.isActive) return false;
+        
+        const planHierarchy = {
+          'free': 0,
+          'premium': 1,
+          'enterprise': 2
+        };
+        
+        const userPlanLevel = planHierarchy[user.subscription.plan] || 0;
+        const requiredPlanLevel = planHierarchy[requiredPlan] || 1;
+        
+        return userPlanLevel >= requiredPlanLevel;
+      },
+      
+      // Check if user can apply to more jobs
+      canApplyToJobs: () => {
+        const user = get().user;
+        if (!user) return false;
+        
+        if (user.subscription?.plan === 'free') {
+          return user.usage?.applicationsThisMonth < 10;
+        } else if (user.subscription?.plan === 'premium') {
+          return user.usage?.applicationsThisMonth < 100;
+        }
+        return true; // Enterprise plan - unlimited
+      },
+      
+      // Get user's application limit
+      getApplicationLimit: () => {
+        const user = get().user;
+        if (!user) return 0;
+        
+        if (user.subscription?.plan === 'free') {
+          return 10;
+        } else if (user.subscription?.plan === 'premium') {
+          return 100;
+        }
+        return Infinity; // Enterprise plan - unlimited
+      }
     }),
     {
-      name: 'eco-tracker-auth',
+      name: 'smartapply-auth',
       partialize: (state) => ({
-        user: state.user,
         token: state.token,
-        refreshToken: state.refreshToken,
-        isAuthenticated: state.isAuthenticated,
-      }),
+        user: state.user,
+        isAuthenticated: state.isAuthenticated
+      })
     }
   )
 );
 
-// Axios interceptor for automatic token refresh
+// Axios interceptors for handling authentication errors
 axios.interceptors.response.use(
   (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._retry &&
-      originalRequest.url !== '/auth/refresh-token'
-    ) {
-      originalRequest._retry = true;
-
-      try {
-        const newToken = await useAuthStore.getState().refreshAccessToken();
-        originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
-        return axios(originalRequest);
-      } catch (refreshError) {
-        return Promise.reject(error);
-      }
+  (error) => {
+    if (error.response?.status === 401) {
+      // Token expired or invalid
+      const { logout } = useAuthStore.getState();
+      logout();
     }
-
     return Promise.reject(error);
   }
 );

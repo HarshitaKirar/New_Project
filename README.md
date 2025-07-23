@@ -1,337 +1,212 @@
-# 🌱 EcoTracker - Gamified Carbon Footprint Tracking Application
+# 🚀 SmartApply - AI-Powered Job Application Platform
 
-A comprehensive web application that helps users track, reduce, and offset their carbon footprint through gamification, community engagement, and real-world rewards.
+A comprehensive web application that revolutionizes job searching through intelligent automation, making the job hunt effortless, efficient, and stress-free.
 
-## 🚀 Features
+## 🎯 Features
 
-### 📊 **Personalized Carbon Tracking**
-- **Smart Onboarding**: Users define their profession & lifestyle to establish a baseline carbon footprint
-- **Automated Tracking**: Daily tracking of water, transport, food, electricity, and shopping emissions
-- **Bill Upload Processing**: Upload utility bills to refine carbon footprint estimations
-- **Real-time Analytics**: Beautiful visualizations of carbon impact and reduction progress
+### 📄 **Effortless Profile Setup**
+- **One-Click Resume Upload**: Users upload their resume once, and our AI extracts skills, experience, and qualifications
+- **Smart Profile Generation**: Automatically creates comprehensive user profiles from resume data
+- **Skills Intelligence**: AI understands and categorizes technical and soft skills
+- **Experience Mapping**: Intelligent parsing of work history, education, and achievements
 
-### 🎮 **Gamified Experience**
-- **EcoCoin Rewards**: Earn coins for sustainable actions and eco-friendly choices
-- **Daily/Weekly Challenges**: Complete eco-tasks like "Cycle to Work" or "Meatless Monday"
-- **Level System**: Progress through levels based on experience points and achievements
-- **Streak Tracking**: Maintain daily activity streaks for bonus rewards
+### 🔍 **Intelligent Job Matching**
+- **AI-Powered Matching**: Advanced algorithms find the most relevant job openings across major job boards
+- **Multi-Platform Integration**: Searches LinkedIn, Indeed, Glassdoor, and other top job platforms
+- **Smart Filtering**: Matches based on skills, experience level, location preferences, and salary expectations
+- **Relevance Scoring**: Each job gets a compatibility score based on user profile
 
-### 🏆 **Real-World Incentives**
-- **Eco-Brand Discounts**: Redeem EcoCoins for discounts at sustainable brands
-- **Transport Vouchers**: E-rickshaw and public transport vouchers
-- **Local Partnerships**: Discounts at plant nurseries and eco-friendly stores
-- **Verified Rewards**: All partners and rewards are verified for authenticity
+### 🤖 **Automated Applications**
+- **One-Click Apply**: System applies to matched jobs automatically on behalf of users
+- **Custom Cover Letters**: AI generates personalized cover letters for each application
+- **Application Optimization**: Tailors applications to match job requirements
+- **Bulk Processing**: Handles multiple applications simultaneously
 
-### 🌍 **Green Community**
-- **Social Features**: Share achievements, post eco-tips, and engage with content
-- **Discussion Forums**: Participate in environmental discussions and Q&A
-- **Referral System**: Earn bonus coins by inviting friends to join
-- **Leaderboards**: Compete with friends and global community
+### 📊 **Centralized Tracking Dashboard**
+- **Application Status**: Real-time tracking of all job applications in one place
+- **Response Analytics**: Monitor application success rates and feedback
+- **Interview Scheduling**: Integrated calendar for managing interviews
+- **Progress Insights**: Detailed analytics on job search performance
 
-### 📈 **Comprehensive Analytics**
-- **Progress Tracking**: Monitor carbon reduction over time with detailed charts
-- **Category Breakdown**: See emissions by transportation, energy, food, etc.
-- **Goal Setting**: Set and track personal carbon reduction targets
-- **Comparative Analysis**: Compare your progress with community averages
+### 🎯 **Smart Job Recommendations**
+- **Personalized Suggestions**: Daily job recommendations based on profile and preferences
+- **Trending Opportunities**: Highlights growing industries and in-demand roles
+- **Salary Insights**: Provides market salary data for positions
+- **Company Intelligence**: Background information on potential employers
 
 ## 🛠️ Tech Stack
 
 ### **Backend**
 - **Runtime**: Node.js with Express.js
 - **Database**: MongoDB with Mongoose ODM
-- **Authentication**: JWT with refresh tokens
-- **File Upload**: Multer with cloud storage support
-- **Real-time**: Socket.IO for live updates
-- **Security**: Helmet, rate limiting, input validation
+- **Authentication**: JWT with secure token management
+- **AI Integration**: OpenAI API for resume parsing and job matching
+- **File Processing**: Advanced PDF parsing and text extraction
+- **Job Board APIs**: Integration with major job platforms
+- **Web Scraping**: Automated job data collection
 
 ### **Frontend**
-- **Framework**: React 18 with functional components and hooks
-- **Routing**: React Router v6
-- **State Management**: Zustand for global state
-- **API**: React Query for server state management
-- **Styling**: Tailwind CSS with custom design system
-- **Animations**: Framer Motion for smooth animations
-- **UI Components**: Headless UI with custom components
-- **Forms**: React Hook Form with validation
-- **Charts**: Recharts for data visualization
-
-### **Development Tools**
-- **Package Manager**: npm
-- **Development Server**: React Scripts with hot reload
-- **Build Tool**: Create React App with custom configurations
-- **CSS Processing**: PostCSS with Tailwind CSS
-- **Code Quality**: ESLint and Prettier
+- **Framework**: React 18 with modern hooks and components
+- **State Management**: Zustand for global state management
+- **UI Framework**: Tailwind CSS with custom design system
+- **File Upload**: Drag-and-drop resume upload with preview
+- **Data Visualization**: Interactive charts for application analytics
+- **Real-time Updates**: Live status updates for applications
 
 ## 📦 Installation & Setup
 
 ### **Prerequisites**
 - Node.js (v16 or higher)
 - MongoDB (v5.0 or higher)
-- npm or yarn
+- OpenAI API key for AI features
 
 ### **Backend Setup**
 
-1. **Clone the repository**
+1. **Clone and install dependencies**
    ```bash
    git clone <repository-url>
-   cd eco-tracker-app
-   ```
-
-2. **Install dependencies**
-   ```bash
+   cd smartapply
    npm run install-all
    ```
 
-3. **Configure environment variables**
+2. **Configure environment variables**
    ```bash
    cd server
    cp .env.example .env
    ```
    
-   Update the `.env` file with your configuration:
+   Update the `.env` file:
    ```env
    NODE_ENV=development
    PORT=5000
-   MONGODB_URI=mongodb://localhost:27017/ecotracker
-   JWT_SECRET=your_super_secret_jwt_key
-   JWT_REFRESH_SECRET=your_refresh_secret_key
+   MONGODB_URI=mongodb://localhost:27017/smartapply
+   JWT_SECRET=your_jwt_secret
+   OPENAI_API_KEY=your_openai_api_key
    CLIENT_URL=http://localhost:3000
    ```
 
-4. **Start MongoDB**
-   ```bash
-   # Using MongoDB service
-   sudo systemctl start mongodb
-   
-   # Or using MongoDB directly
-   mongod
-   ```
-
-5. **Start the backend server**
-   ```bash
-   npm run server
-   ```
-
-### **Frontend Setup**
-
-1. **Start the frontend development server**
-   ```bash
-   npm run client
-   ```
-
-2. **Or start both frontend and backend**
+3. **Start the application**
    ```bash
    npm run dev
    ```
-
-The application will be available at:
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:5000
-- **API Documentation**: http://localhost:5000/api/health
 
 ## 🎯 Usage Guide
 
 ### **Getting Started**
 
-1. **Registration**: Create an account with email and basic information
-2. **Onboarding**: Complete lifestyle assessment to set your carbon baseline
-3. **Dashboard**: View your personalized dashboard with analytics and tasks
-4. **Track Activities**: Log daily activities or upload utility bills
-5. **Complete Tasks**: Take on eco-challenges to earn rewards
-6. **Redeem Rewards**: Use EcoCoins for real-world incentives
-7. **Engage Community**: Share tips and connect with other users
+1. **Sign Up**: Create your SmartApply account
+2. **Upload Resume**: Upload your resume for AI analysis
+3. **Profile Review**: Review and enhance your auto-generated profile
+4. **Set Preferences**: Configure job search criteria and preferences
+5. **Browse Matches**: Review AI-recommended job opportunities
+6. **Auto-Apply**: Enable automated applications for matched jobs
+7. **Track Progress**: Monitor applications in your centralized dashboard
 
-### **Key Features Walkthrough**
+### **Key Features**
 
-#### **Carbon Tracking**
-- Navigate to "Carbon Tracking" to log daily activities
-- Use the bill upload feature for accurate energy consumption data
-- View detailed analytics in the "Analytics" section
+#### **Resume Intelligence**
+- Upload resume in PDF, DOC, or DOCX format
+- AI extracts skills, experience, education, and achievements
+- Smart categorization of technical and soft skills
+- Automatic profile completion and optimization
 
-#### **Eco Tasks**
-- Check "Tasks" for daily and weekly challenges
-- Complete tasks to earn EcoCoins and experience points
-- Track your progress and streak in the user profile
+#### **Job Discovery**
+- AI scans thousands of job postings daily
+- Intelligent matching based on your profile
+- Real-time job alerts for new opportunities
+- Customizable search filters and preferences
 
-#### **Rewards Marketplace**
-- Browse available rewards in the "Rewards" section
-- Filter by category, price, or partner
-- Redeem rewards using your earned EcoCoins
+#### **Application Automation**
+- Automated application submission to matched jobs
+- AI-generated personalized cover letters
+- Application tracking and status monitoring
+- Success rate analytics and optimization tips
 
-#### **Community Engagement**
-- Visit "Community" to see latest posts and discussions
-- Share your eco-achievements and tips
-- Follow other users and engage with their content
+#### **Career Insights**
+- Market analysis for your skills and experience
+- Salary benchmarking and negotiation insights
+- Industry trend analysis and recommendations
+- Career path suggestions and skill gap analysis
 
 ## 🏗️ Project Structure
 
 ```
-eco-tracker-app/
+smartapply/
 ├── server/                  # Backend application
-│   ├── models/             # MongoDB schemas
+│   ├── models/             # Database schemas
+│   │   ├── User.js         # User profiles and preferences
+│   │   ├── Resume.js       # Resume data and analysis
+│   │   ├── Job.js          # Job listings and metadata
+│   │   ├── Application.js  # Job applications tracking
+│   │   └── Company.js      # Company information
 │   ├── routes/             # API endpoints
-│   ├── middleware/         # Authentication and validation
-│   ├── index.js            # Server entry point
-│   └── .env                # Environment configuration
+│   │   ├── auth.js         # Authentication routes
+│   │   ├── resume.js       # Resume upload and parsing
+│   │   ├── jobs.js         # Job search and matching
+│   │   ├── applications.js # Application management
+│   │   └── analytics.js    # Dashboard analytics
+│   ├── services/           # Business logic
+│   │   ├── aiService.js    # OpenAI integration
+│   │   ├── jobScraper.js   # Job board scraping
+│   │   ├── matcher.js      # Job matching algorithm
+│   │   └── applicator.js   # Automated application service
+│   └── index.js            # Server entry point
 ├── client/                 # Frontend application
 │   ├── src/
-│   │   ├── components/     # Reusable React components
+│   │   ├── components/     # Reusable components
 │   │   ├── pages/          # Page components
-│   │   ├── store/          # Zustand stores
-│   │   ├── App.js          # Main React component
-│   │   └── index.js        # Frontend entry point
-│   ├── public/             # Static assets
-│   └── tailwind.config.js  # Tailwind configuration
-├── package.json            # Root package configuration
-└── README.md              # This file
+│   │   │   ├── Dashboard.js    # Main dashboard
+│   │   │   ├── Profile.js      # User profile management
+│   │   │   ├── Jobs.js         # Job browsing and matching
+│   │   │   ├── Applications.js # Application tracking
+│   │   │   └── Analytics.js    # Performance analytics
+│   │   ├── store/          # State management
+│   │   └── services/       # API integration
+│   └── public/             # Static assets
+└── package.json            # Project configuration
 ```
 
-## 🔧 Configuration
+## 🔧 API Documentation
 
-### **Environment Variables**
+### **Authentication**
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `GET /api/auth/profile` - Get user profile
 
-#### **Backend (`server/.env`)**
-```env
-# Server Configuration
-NODE_ENV=development
-PORT=5000
+### **Resume Management**
+- `POST /api/resume/upload` - Upload and parse resume
+- `GET /api/resume/profile` - Get parsed profile data
+- `PUT /api/resume/profile` - Update profile information
 
-# Database
-MONGODB_URI=mongodb://localhost:27017/ecotracker
+### **Job Management**
+- `GET /api/jobs/search` - Search jobs with filters
+- `GET /api/jobs/matches` - Get AI-matched jobs
+- `POST /api/jobs/save` - Save job for later
+- `GET /api/jobs/saved` - Get saved jobs
 
-# Authentication
-JWT_SECRET=your_jwt_secret
-JWT_EXPIRES_IN=7d
-JWT_REFRESH_SECRET=your_refresh_secret
-JWT_REFRESH_EXPIRES_IN=30d
-
-# Client URL
-CLIENT_URL=http://localhost:3000
-
-# Optional Services
-EMAIL_SERVICE=gmail
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_app_password
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-```
-
-#### **Frontend Environment**
-Create `client/.env` for frontend-specific variables:
-```env
-REACT_APP_API_URL=http://localhost:5000/api
-```
+### **Application Management**
+- `POST /api/applications/apply` - Submit job application
+- `GET /api/applications` - Get all applications
+- `PUT /api/applications/:id/status` - Update application status
+- `GET /api/applications/analytics` - Get application analytics
 
 ## 🚀 Deployment
 
-### **Production Build**
-
-1. **Build the frontend**
-   ```bash
-   npm run build
-   ```
-
-2. **Set production environment variables**
-   ```bash
-   export NODE_ENV=production
-   export MONGODB_URI=your_production_mongodb_uri
-   export JWT_SECRET=your_production_jwt_secret
-   ```
-
-3. **Start the production server**
-   ```bash
-   npm start
-   ```
-
-### **Deployment Options**
-
-- **Heroku**: Use the provided `Procfile` for easy Heroku deployment
-- **Digital Ocean**: Deploy on droplets with PM2 for process management
-- **Vercel/Netlify**: Deploy frontend on static hosting platforms
-- **AWS/GCP**: Use cloud platforms for scalable deployment
-
-## 📚 API Documentation
-
-### **Authentication Endpoints**
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `POST /api/auth/refresh-token` - Refresh access token
-- `GET /api/auth/me` - Get current user profile
-
-### **Carbon Tracking Endpoints**
-- `POST /api/carbon/entry` - Create carbon footprint entry
-- `GET /api/carbon/entries` - Get user's carbon entries
-- `GET /api/carbon/analytics` - Get carbon analytics
-- `POST /api/carbon/upload-bill` - Upload and process utility bill
-
-### **Task Management Endpoints**
-- `GET /api/tasks` - Get available tasks
-- `POST /api/tasks/:id/assign` - Assign task to user
-- `POST /api/tasks/:id/complete` - Complete a task
-- `GET /api/tasks/my-tasks` - Get user's assigned tasks
-
-### **Rewards Endpoints**
-- `GET /api/rewards` - Get available rewards
-- `POST /api/rewards/:id/redeem` - Redeem a reward
-- `GET /api/rewards/my-rewards` - Get user's redeemed rewards
+### **Production Setup**
+1. Build the frontend: `npm run build`
+2. Configure production environment variables
+3. Deploy to your preferred cloud platform
+4. Set up MongoDB Atlas for production database
+5. Configure job board API keys and webhooks
 
 ## 🤝 Contributing
 
-1. **Fork the repository**
-2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
-3. **Commit your changes** (`git commit -m 'Add amazing feature'`)
-4. **Push to the branch** (`git push origin feature/amazing-feature`)
-5. **Open a Pull Request**
-
-### **Development Guidelines**
-- Follow the existing code style and conventions
-- Write meaningful commit messages
-- Add comments for complex logic
-- Test your changes thoroughly
-- Update documentation as needed
-
-## 🐛 Troubleshooting
-
-### **Common Issues**
-
-1. **MongoDB Connection Error**
-   - Ensure MongoDB is running: `sudo systemctl status mongodb`
-   - Check connection string in `.env` file
-   - Verify network connectivity
-
-2. **Port Already in Use**
-   - Change PORT in `.env` file
-   - Kill existing processes: `lsof -ti:5000 | xargs kill -9`
-
-3. **JWT Token Errors**
-   - Regenerate JWT secrets in `.env`
-   - Clear browser localStorage
-   - Check token expiration settings
-
-4. **Build Errors**
-   - Clear node_modules: `rm -rf node_modules && npm install`
-   - Check Node.js version compatibility
-   - Update dependencies: `npm update`
+We welcome contributions! Please read our contributing guidelines and submit pull requests for any improvements.
 
 ## 📄 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Inspiration**: Climate change awareness and the need for individual action
-- **Design**: Modern UI/UX principles and accessibility standards
-- **Community**: Open source libraries and contributors
-- **Environment**: Built with sustainability in mind
-
-## 📞 Support
-
-For support and questions:
-- **Email**: support@ecotracker.app
-- **Documentation**: [docs.ecotracker.app](https://docs.ecotracker.app)
-- **Issues**: [GitHub Issues](https://github.com/your-repo/issues)
+This project is licensed under the MIT License.
 
 ---
 
-**Built with 💚 for a sustainable future** 🌍
+**Transform your job search with AI-powered automation** 🎯
