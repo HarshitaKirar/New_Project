@@ -1,7 +1,7 @@
 {
-  "name": "eco-tracker-server",
+  "name": "jobflow-server",
   "version": "1.0.0",
-  "description": "Backend server for EcoTracker application",
+  "description": "Backend server for JobFlow - AI-Powered Job Application Automation Platform",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -20,15 +20,24 @@
     "helmet": "^7.0.0",
     "express-validator": "^7.0.1",
     "node-cron": "^3.0.2",
-    "cloudinary": "^1.40.0",
-    "nodemailer": "^6.9.4",
-    "socket.io": "^4.7.2"
+    "socket.io": "^4.7.2",
+    "openai": "^4.20.1",
+    "puppeteer": "^21.5.2",
+    "bull": "^4.12.2",
+    "redis": "^4.6.10",
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12",
+    "pdf-parse": "^1.1.1",
+    "mammoth": "^1.6.0",
+    "natural": "^6.7.0",
+    "compromise": "^14.10.0",
+    "nodemailer": "^6.9.4"
   },
   "devDependencies": {
     "nodemon": "^3.0.1",
     "jest": "^29.6.2"
   },
-  "keywords": ["nodejs", "express", "mongodb", "eco-tracker"],
-  "author": "EcoTracker Team",
+  "keywords": ["nodejs", "express", "mongodb", "job-automation", "ai", "resume-optimization"],
+  "author": "JobFlow Team",
   "license": "MIT"
 }
